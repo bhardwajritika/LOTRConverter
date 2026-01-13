@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SelectCurrency: View {
     @Environment(\.dismiss) var dismiss
+    @State var selectedCurrency : Currency
     var body: some View {
         ZStack {
             // Background Image
@@ -25,9 +26,21 @@ struct SelectCurrency: View {
                 // Icon images
                 LazyVGrid (columns: [GridItem(), GridItem(), GridItem()]) {
                     ForEach(Currency.allCases) { currency in
-                        CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
+                        if selectedCurrency == currency {
+                            CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
+                                .shadow(color: .black, radius: 10)
+                                .overlay(RoundedRectangle(cornerRadius: 25)
+                                    .stroke(lineWidth: 3)
+                                    .opacity(0.5))
+                            
+                        }
+                        else {
+                            CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
+                                .onTapGesture {
+                                    selectedCurrency = currency
+                                }
+                        }
                     }
-                }
                 
                 
                 // text
@@ -35,10 +48,23 @@ struct SelectCurrency: View {
                     .fontWeight(.bold)
                 
                 // Icon images
-                LazyVGrid (columns: [GridItem(), GridItem(), GridItem()]) {
-                    ForEach(Currency.allCases) { currency in
-                        CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
-                    }
+//                LazyVGrid (columns: [GridItem(), GridItem(), GridItem()]) {
+//                    ForEach(Currency.allCases) { currency in
+//                        if selectedCurrency == currency {
+//                            CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
+//                                .shadow(color: .black, radius: 10)
+//                                .overlay(RoundedRectangle(cornerRadius: 25)
+//                                    .stroke(lineWidth: 3)
+//                                    .opacity(0.5))
+//                                
+//                        }
+//                        else {
+//                            CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
+//                                .onTapGesture {
+//                                    selectedCurrency = currency
+//                                }
+//                        }
+//                    }
                 }
                 
                 // Done button
@@ -60,5 +86,5 @@ struct SelectCurrency: View {
 }
 
 #Preview {
-    SelectCurrency()
+    SelectCurrency(selectedCurrency: .silverPenny)
 }
