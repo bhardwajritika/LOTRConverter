@@ -24,48 +24,17 @@ struct SelectCurrency: View {
                     .fontWeight(.bold)
                 
                 // Icon images
-                LazyVGrid (columns: [GridItem(), GridItem(), GridItem()]) {
-                    ForEach(Currency.allCases) { currency in
-                        if selectedCurrency == currency {
-                            CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
-                                .shadow(color: .black, radius: 10)
-                                .overlay(RoundedRectangle(cornerRadius: 25)
-                                    .stroke(lineWidth: 3)
-                                    .opacity(0.5))
-                            
-                        }
-                        else {
-                            CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
-                                .onTapGesture {
-                                    selectedCurrency = currency
-                                }
-                        }
-                    }
+                IconGrid(selectedCurrency: selectedCurrency)
                 
                 
                 // text
                 Text("Select the currency you would like to convert to: ")
                     .fontWeight(.bold)
                 
+                
+                
                 // Icon images
-//                LazyVGrid (columns: [GridItem(), GridItem(), GridItem()]) {
-//                    ForEach(Currency.allCases) { currency in
-//                        if selectedCurrency == currency {
-//                            CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
-//                                .shadow(color: .black, radius: 10)
-//                                .overlay(RoundedRectangle(cornerRadius: 25)
-//                                    .stroke(lineWidth: 3)
-//                                    .opacity(0.5))
-//                                
-//                        }
-//                        else {
-//                            CurrencyIcon(currencyImage: currency.Image, currencyName: currency.name)
-//                                .onTapGesture {
-//                                    selectedCurrency = currency
-//                                }
-//                        }
-//                    }
-                }
+                IconGrid(selectedCurrency: selectedCurrency)
                 
                 // Done button
                 Button ("Done") {
@@ -83,6 +52,7 @@ struct SelectCurrency: View {
             
         }
     }
+
 }
 
 #Preview {
