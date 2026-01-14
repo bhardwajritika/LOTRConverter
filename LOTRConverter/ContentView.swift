@@ -62,6 +62,10 @@ struct ContentView: View {
                         .onTapGesture {
                             showSelectCurrency.toggle()
                         }
+                        .onChange(of: leftCurrency) {
+                            leftAmount = rightCurrency.Convert(rightAmount, to: leftCurrency)
+                        }
+                        
                         
                         TextField("Amount", text: $leftAmount)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -99,6 +103,9 @@ struct ContentView: View {
                         .onTapGesture {
                             showSelectCurrency.toggle()
                         }
+                        .onChange(of: rightCurrency) {
+                            rightAmount = leftCurrency.Convert(leftAmount, to: rightCurrency)
+                        }
                         
                         TextField("Amount", text: $rightAmount)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -108,6 +115,7 @@ struct ContentView: View {
                                 if rightTyping {
                                     leftAmount = rightCurrency.Convert( rightAmount, to: leftCurrency)
                                 }
+
                             
                         }
                     }
