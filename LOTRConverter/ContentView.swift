@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct ContentView: View {
     // @State - is a property wrapper. It is a stored property.
@@ -20,6 +21,8 @@ struct ContentView: View {
     
     @FocusState var leftTyping
     @FocusState var rightTyping
+    
+    var currencyTip = CurrencyTip()
     
     // body - computed property
     var body: some View {
@@ -61,7 +64,12 @@ struct ContentView: View {
                         .padding(-5)
                         .onTapGesture {
                             showSelectCurrency.toggle()
+                            currencyTip.invalidate(reason: .actionPerformed)
+                                
                         }
+                        .popoverTip(currencyTip, arrowEdge: .bottom) 
+                            
+                        
                         .onChange(of: leftCurrency) {
                             leftAmount = rightCurrency.Convert(rightAmount, to: leftCurrency)
                         }
@@ -102,6 +110,7 @@ struct ContentView: View {
                         .padding(-5)
                         .onTapGesture {
                             showSelectCurrency.toggle()
+                            currencyTip.invalidate(reason: .actionPerformed)
                         }
                         .onChange(of: rightCurrency) {
                             rightAmount = leftCurrency.Convert(leftAmount, to: rightCurrency)
@@ -123,6 +132,7 @@ struct ContentView: View {
                 .padding()
                 .background(Color.black.opacity(0.5))
                 .clipShape(Capsule())
+                .keyboardType(.decimalPad)
                 
                 Spacer()
                 // info button
@@ -147,6 +157,10 @@ struct ContentView: View {
             .sheet(isPresented: $showSelectCurrency) {
                 SelectCurrency(selectedTopCurrency: $leftCurrency, selectedBottomCurrency: $rightCurrency)
             }
+            .task {
+                try? Tips.configure()
+            }
+           
         }
     }
 }
